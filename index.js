@@ -23,6 +23,7 @@ async function run() {
         // console.log('database connected');
         const blogCollection = client.db('personal_blog').collection('blogs');
         const categoryCollection = client.db('personal_blog').collection('categories');
+        const adminsCollection = client.db('personal_blog').collection('admins');
 
         // data load
         app.get('/blog', async (req, res) => {
@@ -39,6 +40,34 @@ async function run() {
           res.send(categories);
         })
 
+        app.post('/category', async (req, res) => {
+          const category = req.body;
+          // console.log(category);
+          const cursor = await categoryCollection.insertOne(category);
+          res.send(cursor);
+        })
+
+        app.post('/admin', async (req, res) => {
+          const admin = req.body;
+          // console.log(admin);
+          const cursor = await adminsCollection.insertOne(admin);
+          res.send(cursor);
+        })
+
+        app.get('/admin/:email', async (req, res) => {
+          const email = req.params.email;
+          // adminEmail:abc@bcb.com
+          // console.log(email);
+          const query = { adminEmail:email };
+          // console.log(query);
+          const cursor = await adminsCollection.findOne(query);
+          // console.log(cursor);
+          res.send(cursor)
+        })
+
+
+
+
 
       }
 
@@ -48,10 +77,6 @@ async function run() {
 }
 
 run().catch(console.dir);
-
-
-
-
 
 
 
