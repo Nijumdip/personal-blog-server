@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.kcxjzr5.mongodb.net/?retryWrites=true&w=majority`;
@@ -65,6 +65,15 @@ async function run() {
           res.send(cursor)
         })
 
+        app.get('/blogDetail/:id', async (req, res) => {
+          const id = req.params.id;
+          // console.log(id);
+          const query = { _id: ObjectId(id) }; 
+          // console.log(query);
+          const cursor = await blogCollection.findOne(query);
+          console.log(cursor);
+          res.send(cursor);
+        })
 
 
 
@@ -77,24 +86,6 @@ async function run() {
 }
 
 run().catch(console.dir);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
