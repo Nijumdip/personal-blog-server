@@ -25,7 +25,8 @@ async function run() {
         const categoryCollection = client.db('personal_blog').collection('categories');
         const adminsCollection = client.db('personal_blog').collection('admins');
 
-        // data load
+        // data load get method ----------------
+
         app.get('/blog', async (req, res) => {
             const query = {};
             const cursor = blogCollection.find(query);
@@ -38,20 +39,6 @@ async function run() {
           const cursor = categoryCollection.find(query);
           const categories = await cursor.toArray();
           res.send(categories);
-        })
-
-        app.post('/category', async (req, res) => {
-          const category = req.body;
-          // console.log(category);
-          const cursor = await categoryCollection.insertOne(category);
-          res.send(cursor);
-        })
-
-        app.post('/admin', async (req, res) => {
-          const admin = req.body;
-          // console.log(admin);
-          const cursor = await adminsCollection.insertOne(admin);
-          res.send(cursor);
         })
 
         app.get('/admin/:email', async (req, res) => {
@@ -71,9 +58,38 @@ async function run() {
           const query = { _id: ObjectId(id) }; 
           // console.log(query);
           const cursor = await blogCollection.findOne(query);
-          console.log(cursor);
+          // console.log(cursor);
           res.send(cursor);
         })
+
+        // get method ----------------
+
+
+        // post method ----------------
+
+        app.post('/category', async (req, res) => {
+          const category = req.body;
+          // console.log(category);
+          const cursor = await categoryCollection.insertOne(category);
+          res.send(cursor);
+        })
+
+        app.post('/admin', async (req, res) => {
+          const admin = req.body;
+          // console.log(admin);
+          const cursor = await adminsCollection.insertOne(admin);
+          res.send(cursor);
+        })
+
+        app.post('/api/blog', async (req, res) => {
+          const content = req.body;
+          // console.log(content);
+          const cursor = await blogCollection.insertOne(content);
+          res.send(cursor);
+          console.log(cursor);
+        })
+        
+        // post method ----------------
 
 
 
